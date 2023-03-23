@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>台球计价器</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div class="title">旺辉台球厅</div>
+    <div class="main">
+        <div class="box">
+			<span class="desk">
+			<div class="name">1号桌【会员 10元/小时  普通 12元/小时】</div>
+			<div class="image">
+				<img style="width:300px;height:150px;"
+                     src="./14.jpg">
+			</div>
+			<button v-on:click="start(1)" v-if="!gameing1">开始计时(普通)</button>
+			<button v-on:click="start(11)" v-if="!gameing1">开始计时(会员)</button> 
+			<button disabled="true" v-if="gameing1">开始计时</button>
+			<button v-on:click="end(1)">结束并计价</button>
+			<div>游戏时间</div>
+			<div><span>{{hour1}}小时</span><span>{{min1}}分钟</span><span>{{second1}}秒</span></div>
+		</span>
+            <span class="desk">
+			<div class="name">2号桌【会员 10元/小时  普通 12元/小时】</div>
+			<div class="image">
+				<img style="width:300px;height:150px;"
+                     src="./14.jpg">
+			</div>
+			<button v-on:click="start(2)" v-if="!gameing2">开始计时(普通)</button>
+			<button v-on:click="start(22)" v-if="!gameing2">开始计时(会员)</button> 
+			<button disabled="true" v-if="gameing2">开始计时</button>
+			<button v-on:click="end(2)">结束并计价</button>
+			<div>游戏时间</div>
+			<div><span>{{hour2}}小时</span><span>{{min2}}分钟</span><span>{{second2}}秒</span></div>
+		</span>
+			<span class="desk">
+			<div class="name">3号桌【会员 10元/小时  普通 12元/小时】</div>
+			<div class="image">
+				<img style="width:300px;height:150px;"
+					 src="./14.jpg">
+			</div>
+			<button v-on:click="start(3)" v-if="!gameing3">开始计时(普通)</button>
+			<button v-on:click="start(33)" v-if="!gameing3">开始计时(会员)</button>
+			<button disabled="true" v-if="gameing3">开始计时</button>
+			<button v-on:click="end(3)">结束并计价</button>
+			<div>游戏时间</div>
+			<div><span>{{hour3}}小时</span><span>{{min3}}分钟</span><span>{{second3}}秒</span></div>
+		</span>
+        </div>
+        <div class="box">
+            <span class="desk">
+			<div class="name">4号桌【会员 10元/小时  普通 12元/小时】</div>
+			<div class="image">
+				<img style="width:300px;height:150px;"
+                     src="./14.jpg">
+			</div>
+			<button v-on:click="start(4)" v-if="!gameing4">开始计时(普通)</button>
+			<button v-on:click="start(44)" v-if="!gameing4">开始计时(会员)</button> 
+			<button disabled="true" v-if="gameing4">开始计时</button>
+			<button v-on:click="end(4)">结束并计价</button>
+			<div>游戏时间</div>
+			<div><span>{{hour4}}小时</span><span>{{min4}}分钟</span><span>{{second4}}秒</span></div>
+		</span>
+			<span class="desk">
+			<div class="name">5号桌【会员 10元/小时  普通 12元/小时】</div>
+			<div class="image">
+				<img style="width:300px;height:150px;"
+                    src="./14.jpg">
+			</div>
+			<button v-on:click="start(5)" v-if="!gameing5">开始计时(普通)</button>
+			<button v-on:click="start(55)" v-if="!gameing5">开始计时(会员)</button>
+			<button disabled="true" v-if="gameing5">开始计时</button>
+			<button v-on:click="end(5)">结束并计价</button>
+			<div>游戏时间</div>
+			<div><span>{{hour5}}小时</span><span>{{min5}}分钟</span><span>{{second5}}秒</span></div>
+		</span>
+			<span class="desk">
+			<div class="name">6号桌【会员 10元/小时  普通 12元/小时】</div>
+			<div class="image">
+				<img style="width:300px;height:150px;"
+                    src="./14.jpg">
+			</div>
+			<button v-on:click="start(6)" v-if="!gameing6">开始计时(普通)</button>
+			<button v-on:click="start(66)" v-if="!gameing6">开始计时(会员)</button>
+			<button disabled="true" v-if="gameing6">开始计时</button>
+			<button v-on:click="end(6)">结束并计价</button>
+			<div>游戏时间</div>
+			<div><span>{{hour6}}小时</span><span>{{min6}}分钟</span><span>{{second6}}秒</span></div>
+		</span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    new Vue({
+        el: '#app',
+        data: {
+            price1: 12,
+            priceVip1: 10,
+            price2: 12,
+            priceVip2: 10,
+            price3: 12,
+            priceVip3: 10,
+            price4: 12,
+            priceVip4: 10,
+			price5: 12,
+			priceVip5: 10,
+			price6: 12,
+			priceVip6: 10,
+            time1: 0,
+            time2: 0,
+            time3: 0,
+            time4: 0,
+			time5: 0,
+			time6: 0,
+            hour1: 0,
+            hour2: 0,
+            hour3: 0,
+            hour4: 0,
+			hour5: 0,
+			hour6: 0,
+            min1: 0,
+            min2: 0,
+            min3: 0,
+            min4: 0,
+			min5: 0,
+			min6: 0,
+            second1: 0,
+            second2: 0,
+            second3: 0,
+            second4: 0,
+			second5: 0,
+			second6: 0,
+            gameing1: false,
+            gameing2: false,
+            gameing3: false,
+            gameing4: false,
+			gameing5: false,
+			gameing6: false,
+            isVip1: false,
+            isVip2: false,
+            isVip3: false,
+            isVip4: false,
+			isVip5: false,
+			isVip6: false
+        },
+        computed: {},
+        methods: {
+            start(param) {
+                let that = this;
+                if (param == 1) {
+                    that.gameing1 = true;
+                    that.isVip1 = false;
+                    this.timeadd1 = setInterval(function () {
+                        if (that.gameing1) {
+                            that.second1++;
+                            that.timeChange(param);
+                        }
+                    }, 1000);
+                } else if (param == 11) {
+                    that.gameing1 = true;
+                    that.isVip1 = true;
+                    this.timeadd1 = setInterval(function () {
+                        if (that.gameing1) {
+                            that.second1++;
+                            that.timeChange(param);
+                        }
+                    }, 1000);
+                } else if (param == 2) {
+                    that.gameing2 = true;
+                    that.isVip2 = false;
+                    this.timeadd2 = setInterval(function () {
+                        if (that.gameing2) {
+                            that.second2++;
+                            that.timeChange(param);
+                        }
+                    }, 1000);
+                } else if (param == 22) {
+                    that.gameing2 = true;
+                    that.isVip2 = true;
+                    this.timeadd2 = setInterval(function () {
+                        if (that.gameing2) {
+                            that.second2++;
+                            that.timeChange(param);
+                        }
+                    }, 1000);
+                } else if (param == 3) {
+                    that.gameing3 = true;
+                    that.isVip3 = false;
+                    this.timeadd3 = setInterval(function () {
+                        if (that.gameing3) {
+                            that.second3++;
+                            that.timeChange(param);
+                        }
+                    }, 1000);
+                } else if (param == 33) {
+                    that.gameing3 = true;
+                    that.isVip3 = true;
+                    this.timeadd3 = setInterval(function () {
+                        if (that.gameing3) {
+                            that.second3++;
+                            that.timeChange(param);
+                        }
+                    }, 1000);
+                } else if (param == 4) {
+                    that.gameing4 = true;
+                    that.isVip4 = false;
+                    this.timeadd4 = setInterval(function () {
+                        if (that.gameing4) {
+                            that.second4++;
+                            that.timeChange(param);
+                        }
+                    }, 1000);
+                } else if (param == 44) {
+                    that.gameing4 = true;
+                    that.isVip4 = true;
+                    this.timeadd4 = setInterval(function () {
+                        if (that.gameing4) {
+                            that.second4++;
+                            that.timeChange(param);
+                        }
+                    }, 1000);
+                }else if (param == 5) {
+					that.gameing5 = true;
+					that.isVip5 = false;
+					this.timeadd5 = setInterval(function () {
+						if (that.gameing5) {
+							that.second5++;
+							that.timeChange(param);
+						}
+					}, 1000);
+				}else if (param == 55) {
+					that.gameing5 = true;
+					that.isVip5 = true;
+					this.timeadd5 = setInterval(function () {
+						if (that.gameing5) {
+							that.second5++;
+							that.timeChange(param);
+						}
+					}, 1000);
+				}else if (param == 6) {
+					that.gameing6 = true;
+					that.isVip6 = false;
+					this.timeadd6 = setInterval(function () {
+						if (that.gameing6) {
+							that.second6++;
+							that.timeChange(param);
+						}
+					}, 1000);
+				}else if (param == 66) {
+					that.gameing6 = true;
+					that.isVip6 = true;
+					this.timeadd6 = setInterval(function () {
+						if (that.gameing6) {
+							that.second6++;
+							that.timeChange(param);
+						}
+					}, 1000);
+				}
+            },
+            timeChange(param) {
+                let that = this;
+                if (param == 1) {
+                    if (that.min1 > 59) {
+                        that.hour1++;
+                        that.min1 = 0;
+                    }
+                    if (that.second1 > 59) {
+                        that.min1++;
+                        that.second1 = 0;
+                    }
+                }
+                if (param == 2) {
+                    if (that.min2 > 59) {
+                        that.hour2++;
+                        that.min2 = 0;
+                    }
+                    if (that.second2 > 59) {
+                        that.min2++;
+                        that.second2 = 0;
+                    }
+                }
+                if (param == 3) {
+                    if (that.min3 > 59) {
+                        that.hour3++;
+                        that.min3 = 0;
+                    }
+                    if (that.second3 > 59) {
+                        that.min3++;
+                        that.second3 = 0;
+                    }
+                }
+                if (param == 4) {
+                    if (that.min4 > 59) {
+                        that.hour4++;
+                        that.min4 = 0;
+                    }
+                    if (that.second4 > 59) {
+                        that.min4++;
+                        that.second4 = 0;
+                    }
+                }
+				if (param == 5) {
+					if (that.min5 > 59) {
+						that.hour5++;
+						that.min5 = 0;
+					}
+					if (that.second5 > 59) {
+						that.min5++;
+						that.second5 = 0;
+					}
+				}
+				if (param == 6) {
+					if (that.min6 > 59) {
+						that.hour6++;
+						that.min6 = 0;
+					}
+					if (that.second6 > 59) {
+						that.min6++;
+						that.second6 = 0;
+					}
+				}
+                if (param == 11) {
+                    if (that.min1 > 59) {
+                        that.hour1++;
+                        that.min1 = 0;
+                    }
+                    if (that.second1 > 59) {
+                        that.min1++;
+                        that.second1 = 0;
+                    }
+                }
+                if (param == 22) {
+                    if (that.min2 > 59) {
+                        that.hour2++;
+                        that.min2 = 0;
+                    }
+                    if (that.second2 > 59) {
+                        that.min2++;
+                        that.second2 = 0;
+                    }
+                }
+                if (param == 33) {
+                    if (that.min3 > 59) {
+                        that.hour3++;
+                        that.min3 = 0;
+                    }
+                    if (that.second3 > 59) {
+                        that.min3++;
+                        that.second3 = 0;
+                    }
+                }
+                if (param == 44) {
+                    if (that.min4 > 59) {
+                        that.hour4++;
+                        that.min4 = 0;
+                    }
+                    if (that.second4 > 59) {
+                        that.min4++;
+                        that.second4 = 0;
+                    }
+                }
+				if (param == 55) {
+					if (that.min5 > 59) {
+						that.hour5++;
+						that.min5 = 0;
+					}
+					if (that.second5 > 59) {
+						that.min5++;
+						that.second5 = 0;
+					}
+				}
+				if (param == 66) {
+					if (that.min6 > 59) {
+						that.hour6++;
+						that.min6 = 0;
+					}
+					if (that.second6 > 59) {
+						that.min6++;
+						that.second6 = 0;
+					}
+				}
+            },
+            end(param) {
+                let that = this;
+                if (param == 1) {
+                    clearInterval(this.timeadd1);
+                    that.gameing1 = false;
+                    
+                    if (that.isVip1) {
+                        that.time1= Math.ceil((that.min1 + 1 )/ 6)
+                        let totlePrice = (that.hour1 * that.priceVip1) + (that.time1 * 1);
+                        alert("玩家玩了" + that.hour1 + "小时" + that.min1 + "分钟" + that.second1 + "秒,会员价应付" + totlePrice + "元");
+                    } else {
+                        
+                        that.time1= Math.ceil((that.min1 + 1 )/ 5)
+                        let totlePrice = (that.hour1 * that.price1) + (that.time1 * 1);
+                        alert("玩家玩了" + that.hour1 + "小时" + that.min1 + "分钟" + that.second1 + "秒,普通价应付" + totlePrice + "元");
+                    }
+                    that.second1 = 0;
+                    that.min1 = 0;
+                    that.hour1 = 0;
+                    that.isVip1 = false;
+                }
+                if (param == 2) {
+                    clearInterval(this.timeadd2);
+                    that.gameing2 = false;
+                    
+                    if (that.isVip2) {
+                        that.time2= Math.ceil((that.min2 + 1 )/ 6)
+                        let totlePrice = (that.hour2 * that.priceVip2) + (that.time2 * 1);
+                        alert("玩家玩了" + that.hour2 + "小时" + that.min2 + "分钟" + that.second2 + "秒,会员价应付" + totlePrice + "元");
+                    } else {
+                        that.time2= Math.ceil((that.min2 + 1 )/ 5)
+                        let totlePrice = (that.hour2 * that.price2) + (that.time2 * 1);
+                        alert("玩家玩了" + that.hour2 + "小时" + that.min2 + "分钟" + that.second2 + "秒,普通价应付" + totlePrice + "元");
+                    }
+                    that.second2 = 0;
+                    that.min2 = 0;
+                    that.hour2 = 0;
+                    that.isVip2 = false;
+                }
+                if (param == 3) {
+                    clearInterval(this.timeadd3);
+                    that.gameing3 = false;
+                  
+                    if (that.isVip3) {
+                        that.time3= Math.ceil((that.min3 + 1 )/ 6)
+                        let totlePrice = (that.hour3 * that.priceVip3) + (that.time3 * 1);
+                        alert("玩家玩了" + that.hour3 + "小时" + that.min3 + "分钟" + that.second3 + "秒,会员价应付" + totlePrice + "元");
+                    } else {
+                        that.time3= Math.ceil((that.min3 + 1 )/ 5)
+                        let totlePrice = (that.hour3 * that.price3) + (that.time3 * 1);
+                        alert("玩家玩了" + that.hour3 + "小时" + that.min3 + "分钟" + that.second3 + "秒,普通价应付" + totlePrice + "元");
+                    }
+                    that.second3 = 0;
+                    that.min3 = 0;
+                    that.hour3 = 0;
+                    that.isVip3 = false;
+                }
+                if (param == 4) {
+                    clearInterval(this.timeadd4);
+                    that.gameing4 = false;
+                   
+                    if (that.isVip4) {
+                        that.time4= Math.ceil((that.min4 + 1 )/ 6)
+                        let totlePrice = (that.hour4 * that.priceVip4) + (that.time4 * 1);
+                        alert("玩家玩了" + that.hour4 + "小时" + that.min4 + "分钟" + that.second4 + "秒,会员价应付" + totlePrice + "元");
+                    } else {
+                        that.time4= Math.ceil((that.min4 + 1 )/ 5)
+                        let totlePrice = (that.hour4 * that.price4) + (that.time4 * 1);
+                        alert("玩家玩了" + that.hour4 + "小时" + that.min4 + "分钟" + that.second4 + "秒,普通价应付" + totlePrice + "元");
+                    }
+                    that.second4 = 0;
+                    that.min4 = 0;
+                    that.hour4 = 0;
+                    that.isVip4 = false;
+                }
+				if (param == 5) {
+					clearInterval(this.timeadd5);
+					that.gameing5 = false;
+				
+					if (that.isVip5) {
+						that.time5= Math.ceil((that.min5 + 1 )/ 6)
+                        let totlePrice = (that.hour5 * that.priceVip5) + (that.time5 * 1);
+						alert("玩家玩了" + that.hour5 + "小时" + that.min5 + "分钟" + that.second5 + "秒,会员价应付" + totlePrice + "元");
+					} else {
+						that.time5= Math.ceil((that.min5 + 1 )/ 5)
+                        let totlePrice = (that.hour5 * that.price5) + (that.time5 * 1);
+						alert("玩家玩了" + that.hour5 + "小时" + that.min5 + "分钟" + that.second5 + "秒,普通价应付" + totlePrice + "元");
+					}
+					that.second5 = 0;
+					that.min5 = 0;
+					that.hour5 = 0;
+					that.isVip5 = false;
+				}
+				if (param == 6) {
+					clearInterval(this.timeadd6);
+					that.gameing6 = false;
+					
+					if (that.isVip6) {
+						that.time6= Math.ceil((that.min6 + 1 )/ 6)
+                        let totlePrice = (that.hour6 * that.priceVip6) + (that.time6 * 1);
+						alert("玩家玩了" + that.hour6 + "小时" + that.min6 + "分钟" + that.second6 + "秒,会员价应付" + totlePrice + "元");
+					} else {
+						that.time6= Math.ceil((that.min6 + 1 )/ 5)
+                        let totlePrice = (that.hour6 * that.price6) + (that.time6 * 1);
+						alert("玩家玩了" + that.hour6 + "小时" + that.min6 + "分钟" + that.second6 + "秒,普通价应付" + totlePrice + "元");
+					}
+					that.second6 = 0;
+					that.min6 = 0;
+					that.hour6 = 0;
+					that.isVip6 = false;
+				}
+            }
+
+        },
+        beforeMount() {
+        },
+        mounted() {
+        },
+        watch: {}
+    })
+</script>
+
+<style type="text/css">
+    #app {
+        padding: 0;
+        margin: 0;
+        background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+    }
+
+    .title {
+        position: relative;
+        width: 50%;
+        height: 10%;
+        left: 40%;
+        font-size: 40px;
+        font-weight: bold;
+        color: black;
+    }
+
+    .main {
+        width: 99vw;
+        height: 89vh;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .box {
+        width: 80%;
+        height: 40%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .image {
+        width: 300px;
+        height: 150px;
+    }
+
+</style>
+</body>
+</html>
